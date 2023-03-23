@@ -1,4 +1,5 @@
 #if 1
+//Postfix 계산법
 #include<stdio.h>
 #include<stdlib.h>
 #define STACK_SIZE 20

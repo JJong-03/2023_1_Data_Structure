@@ -338,7 +338,7 @@ struct node* findNode(int _v) {
 	struct node* spear = root;
 
 	while (1) {
-		if (spear == 0 || spear->data == _v) {
+		if (spear == 0 ||spear->data == _v) {
 			return spear;
 		}
 		if (spear->data < _v) {
@@ -355,7 +355,7 @@ void delFromBST(int _v) {
 	if (res.me == 0) {
 		return;
 	}
-
+	
 	if (res.me->left == 0 && res.me->right == 0) { // 무자식
 		if (res.parent == 0) {  // root
 			root = 0;

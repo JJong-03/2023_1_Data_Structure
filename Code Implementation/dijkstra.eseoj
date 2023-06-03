@@ -1,0 +1,138 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+
+#define SZ 7
+int graph[SZ][SZ];
+
+void addEdge(int v1, int v2, int w) {
+    graph[v1][v2] = w;
+    graph[v2][v1] = w;
+}
+
+struct dij {
+    int prev;
+    int dist;
+    int done;
+};
+
+struct dij dtable[SZ];
+
+void initDtable(int sidx) {
+    for (int i = 0; i < SZ; i++) {
+        if (sidx == i) {
+            dtable[i].dist = 0;
+            dtable[i].prev = sidx;
+            dtable[i].done = 1;
+        }
+        else if (graph[sidx][i] > 0) {
+            dtable[i].dist = graph[sidx][i];
+            dtable[i].prev = sidx;
+            dtable[i].done = 0;
+        }
+        else {
+            dtable[i].dist = 99999;
+            dtable[i].prev = -1;
+            dtable[i].done = 0;
+        }
+    }
+}
+
+int findMinVtx() {
+    int minDis = 99999;
+    int minIdx = -1;
+
+    for (int i = 0; i < SZ; i++) {
+        if (dtable[i].done == 0 && dtable[i].dist < minDis) {
+            minDis = dtable[i].dist;
+            minIdx = i;
+        }
+    }
+
+    return minIdx;
+}
+
+void do_dijkstra(int sidx, int tidx) {
+
+    initDtable(sidx);
+
+    while (1) {
+
+        int res = findMinVtx();
+
+        dtable[res].done = 1;
+        if (res == -1) {
+            break;
+        }
+
+        for (int i = 0; i < SZ; i++) {
+            if (dtable[i].done == 0) {
+                if (graph[res][i] > 0) {
+                    if (dtable[i].dist > dtable[res].dist + graph[res][i]) {
+                        dtable[i].dist = dtable[res].dist + graph[res][i];
+                        dtable[i].prev = res;
+                    }
+                }
+            }
+        }
+
+    }
+
+}
+
+void printGraph() {
+
+    for (int i = 0; i < SZ; i++) {
+        for (int j = 0; j < SZ; j++) {
+            printf("%d ", graph[i][j]);
+        }
+        printf("\n");
+    }
+
+}
+
+int main() {
+
+    addEdge(1, 2, 2);
+    addEdge(1, 3, 5);
+    addEdge(1, 4, 1);
+
+    addEdge(2, 3, 3);
+    addEdge(2, 4, 2);
+
+    addEdge(3, 4, 3);
+    addEdge(3, 5, 1);
+    addEdge(3, 6, 5);
+
+    addEdge(4, 5, 1);
+
+    addEdge(5, 6, 2);
+
+    int s;
+    int t;
+
+    //printGraph();
+
+    scanf("%d %d", &s, &t);
+
+    do_dijkstra(s, t);
+
+    int arr[SZ];
+
+    int n = 0;
+    while (1) {
+        arr[n] = t;
+        n++;
+
+        if (t == s) {
+            break;
+        }
+
+        t = dtable[t].prev;
+    }
+
+    for (int i = n - 1; i >= 0; i--) {
+        printf("%d ", arr[i]);
+    }
+
+    return 0;
+}

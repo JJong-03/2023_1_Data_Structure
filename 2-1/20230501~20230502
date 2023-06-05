@@ -58,26 +58,42 @@ int dequeue() {
     return res;
 }
 
-void do_BFS(int v) {
-    int visited[NUM_VTX] = { 0, };
+void do_DFS(int _v) {
+	// 1. stack_dfs : push, pop, checkDuplication
+	// 2. visitied :  방문했는지 여부를 나타내는 1차원 배열
+	int visited[NUM_VTX] = { 0, }; // 모두 다 방문하지 않았음.
 
-    enqueue(v);
-    while (1) {
-        int m = dequeue();
-        if (m == -999) break;
+	// 알고리즘
+	// 
+	// 시작 vertex를 stack에 넣는다.
+	// 
+	// 반복 -- 스택이 빌 때까지
+	//   스택에서 pop ---> m
+	//   m을 방문했다고 표시하고, 
+	//   m을 화면에 출력
+	//   for (m에 연결된 각각의 vertex에 대해서)
+	//       if (stack에 없고, visited가 아니면) 
+	//          ==> push
+	//      
+	push(_v);
+	while (1) {
 
-        if (visited[m] != 1) {
-            visited[m] = 1;
-            printf("%d을 방문하였습니다.\n", m);
-        }
-        struct node* _cur = graph[m];
-        while (_cur != 0) {
-            if (checkDuplication(_cur->vtx) == 0 && visited[_cur->vtx] == 0) {
-                enqueue(_cur->vtx);
-            }
-            _cur = _cur->next;
-        }
-    }
+		int m = pop();
+		if (m == -999) {
+			break;
+		}
+
+		printf("%d vertex를 방문했음 \n", m);
+
+		struct node* _cur = graph[m];
+		while (_cur != 0) {
+			if (visited[_cur->vtx] == 0) {
+				visited[_cur->vtx] = 1;
+				push(_cur->vtx);
+			}
+			_cur = _cur->next;
+		}
+	}
 }
 
 void push(int v) {

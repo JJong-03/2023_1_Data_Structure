@@ -1,0 +1,85 @@
+// 1.Bubble sort    --> 반복문을 돌릴 때마다 하나씩 줄어듬 O(n^2)
+// 2.Selection sort --> O(n^2) 
+// 3.Insertion sort --> O(n^2)
+// 4.Shell sort     --> 
+// 5.Merge sort		-->
+// 6.Quick sort		--> O(nlogn)
+
+// Bubble sort
+#if 0 
+#include<stdio.h>
+#define SZ 5
+int main() {
+
+	int num[] = { 5,4,3,2,1 };
+
+	// 1번 돌아감
+	for (int j = 0; j < SZ - 1; j++) {
+		for (int i = 0; i < SZ - 1 - j; i++) {
+			if (num[i] > num[i + 1]) {
+				// swap
+				int temp = num[i];
+				num[i] = num[i + 1];
+				num[i + 1] = temp;
+			}
+		}
+	}
+	for (int i = 0; i < SZ; i++) {
+		printf("%d ", num[i]);
+	}
+	
+	return 0;
+}
+#endif
+// Selection sort
+#if 0
+#include<stdio.h>
+#define SZ 5
+int main() {
+	int num[] = { 5,4,3,2,1 };
+	for (int j = 0; j < SZ; j++) {
+		int sidx = j;
+		for (int i = j; i < SZ; i++) {
+			if (num[i] < num[sidx]) {
+				sidx = i;
+			}
+		}
+		int temp = num[j];
+		num[j] = num[sidx];
+		num[sidx] = temp;
+	}
+
+	for (int i = 0; i < SZ; i++) {
+		printf("%d ", num[i]);
+	}
+
+	return 0;
+}
+
+#endif
+// Insertion sort
+#if 0
+#include<stdio.h>
+#define SZ 5
+int main() {
+	int num[] = { 5,4,3,2,1 };
+	for (int j = 1; j < SZ; j++) {
+		for (int i = j; i > 0; i--) {
+			if (num[i] < num[i - 1]) {
+				int temp = num[i];
+				num[i] = num[i - 1];
+				num[i - 1] = temp;
+			}
+			else break;
+		}
+	}
+
+
+	for (int i = 0; i < SZ; i++) {
+		printf("%d ", num[i]);
+	}
+
+	return 0;
+}
+#endif
+// Shell sort  
